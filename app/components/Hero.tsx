@@ -20,8 +20,8 @@ export function Hero() {
   };
 
   return (
-    <section id="top" className="relative w-full overflow-hidden lg:min-h-[100dvh]">
-      {/* Reception: a full uncropped frame at the top on mobile, a dimmed full
+    <section id="top" className="relative flex w-full flex-col-reverse overflow-hidden lg:block lg:min-h-[100dvh]">
+      {/* Reception: a full uncropped frame at the bottom on mobile, a dimmed full
           background on desktop. */}
       <div className="relative aspect-[2752/1536] w-full lg:absolute lg:inset-0 lg:aspect-auto lg:h-full">
         <Image
@@ -40,7 +40,7 @@ export function Hero() {
         <div className="absolute inset-x-0 top-0 hidden h-28 bg-gradient-to-b from-black/45 to-transparent lg:block" />
       </div>
 
-      {/* Content: below the image on mobile (page colours), overlaid and anchored
+      {/* Content: above the image on mobile (page colours), overlaid and anchored
           to the lower third on desktop (light). */}
       <motion.div
         className="relative mx-auto flex max-w-[1320px] flex-col px-5 py-14 sm:px-8 lg:min-h-[100dvh] lg:justify-end lg:px-12 lg:pb-11 lg:pt-0"
