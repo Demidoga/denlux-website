@@ -69,7 +69,7 @@ export function Hero() {
             variants={rise}
             className="prose-measure mt-8 text-lg leading-relaxed text-ink-soft lg:leading-[1.7] lg:tracking-[0.004em] lg:text-white/85"
           >
-            A private practice led by Dr. Saad Ahmed, built for families who
+            A private practice, built for families who
             want a dentist that slows down and explains.
           </motion.p>
 
@@ -98,18 +98,7 @@ export function Hero() {
             Private practice by H&amp;S
           </p>
 
-          <a
-            href="#about"
-            aria-label="Scroll to explore the practice"
-            className="group inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-white/55 transition-colors hover:text-white"
-          >
-            Scroll
-            <ArrowDownIcon
-              size={14}
-              weight="bold"
-              className="animate-scroll-bob text-accent transition-transform duration-300 group-hover:translate-y-0.5"
-            />
-          </a>
+         
         </motion.div>
       </motion.div>
     </section>

@@ -58,7 +58,7 @@ export default function RootLayout({
       <head>
         <ThemeScript />
       </head>
-      <body className={`${cinzel.variable} ${montserrat.variable} grain antialiased`}>
+      <body className={`${cinzel.variable} ${montserrat.variable} antialiased`}>
         <SmoothScroll />
         {children}
       </body>

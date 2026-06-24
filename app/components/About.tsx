@@ -90,7 +90,7 @@ function PortraitPlate({ doctor }: { doctor: Doctor }) {
       {/* Floating portrait: in normal flow on mobile (absolutely placed over the
           frame's reserved top band), absolute and overhanging on large screens. */}
       <div className="absolute left-5 right-5 top-[-2rem] h-[20rem] sm:left-8 sm:right-8 lg:left-[-1.25rem] lg:right-auto lg:top-[-2.5rem] lg:bottom-12 lg:h-auto lg:w-[49%]">
-        <div className="relative h-full w-full overflow-hidden rounded-xl border border-line bg-surface-2 shadow-[0_40px_70px_-28px_rgba(31,45,52,0.6)] dark:shadow-[0_46px_84px_-30px_rgba(0,0,0,0.85)]">
+        <div className="relative h-full w-full overflow-hidden  bg-black shadow-[0_58px_80px_-30px_rgba(20,29,33,1)] dark:shadow-[0_54px_96px_-28px_rgba(0,0,0,0.95)]">
           <Image
             src={doctor.photo}
             alt={doctor.alt}
@@ -145,20 +145,15 @@ export function About() {
   return (
     <section
       id="about"
-      className="relative scroll-mt-24 border-y border-line bg-bg py-24 sm:py-32 lg:py-40"
+      className="relative scroll-mt-16 lg:scroll-mt-[72px] border-y border-line bg-bg py-24 sm:py-32 lg:py-40"
     >
       <div className="relative mx-auto max-w-[1320px] px-5 sm:px-8">
         {/* Section header */}
         <div className="max-w-[42ch]">
-          <Reveal>
-            <p className="text-[0.96rem] font-medium tracking-tight text-accent-strong">
-              The people behind Denlux
-            </p>
-          </Reveal>
           <Reveal delay={0.06}>
-            <h2 className="font-display mt-4 text-[clamp(2rem,4vw,3.1rem)] leading-[1.08] tracking-[-0.025em] text-ink">
-              Two dentists, one standard of care.
-            </h2>
+            <h1 className="font-display font-bold text-[clamp(2.4rem,4.6vw,3.7rem)] leading-[1.0] tracking-[-0.02em] text-ink">
+              ABOUT US
+            </h1>
           </Reveal>
         </div>
 

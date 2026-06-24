@@ -3,8 +3,8 @@ import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { Reveal } from "./motion";
 import { BookButton } from "./BookButton";
 
-const CONTOUR = "/services/Gemini_Generated_Image_kw4ty6kw4ty6kw4t.png";
-const AT_WORK = "/services/Gemini_Generated_Image_lg9wbmlg9wbmlg9w.png";
+const CONTOUR = "/services/contour.webp";
+const AT_WORK = "/services/at_work.webp";
 
 const TREATMENTS = [
   {
@@ -43,14 +43,14 @@ export function Services() {
   return (
     <section
       id="services"
-      className="scroll-mt-24 bg-surface/50 py-24 sm:py-32 lg:py-36"
+      className="scroll-mt-16 lg:scroll-mt-[72px] bg-surface/50 py-24 sm:py-32 lg:py-36"
     >
       <div className="mx-auto max-w-[1320px] px-5 sm:px-8">
         <div className="lg:grid lg:grid-cols-12 lg:gap-10 xl:gap-14">
           {/* ============ LEFT: the pinned rail ============ */}
           <div className="lg:col-span-6 lg:sticky lg:top-24 lg:self-start">
             <Reveal>
-              <h2 className="font-display font-bold text-[clamp(2.4rem,4.6vw,3.7rem)] leading-[1.0] tracking-[-0.02em] text-accent-strong">
+              <h2 className="font-display font-bold text-[clamp(2.4rem,4.6vw,3.7rem)] leading-[1.0] tracking-[-0.02em] text-ink">
                 WHAT WE PROVIDE.
               </h2>
             </Reveal>
@@ -80,9 +80,9 @@ export function Services() {
                   className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent sm:bg-gradient-to-l sm:from-black/70 sm:via-black/15 sm:to-transparent"
                 />
 
-                <div className="relative grid grid-cols-1 gap-5 p-5 sm:grid-cols-12 sm:items-center sm:gap-6 sm:p-6">
+                <div className="relative grid bg-black/50 grid-cols-1 gap-5 p-5 sm:grid-cols-12 sm:items-center sm:gap-6 sm:p-6">
                   <figure className="sm:col-span-5">
-                    <div className="relative aspect-[5/4] overflow-hidden rounded-lg border border-deep-line shadow-[0_22px_50px_-32px_rgba(0,0,0,0.85)] sm:aspect-[4/5]">
+                    <div className="relative aspect-[5/4] rounded-lg overflow-hidden border border-deep-line shadow-[0_22px_50px_-32px_rgba(0,0,0,0.85)] sm:aspect-[4/5]">
                       <Image
                         src={AT_WORK}
                         alt="Dr. Saad Ahmed working under magnification at the chair, gloved hands steady over a patient"
@@ -145,7 +145,7 @@ export function Services() {
                       </span>
                       <div>
                         <div className="flex items-start justify-between gap-4">
-                          <h3 className="font-display text-[clamp(1.5rem,2.7vw,2.15rem)] leading-[1.06] tracking-[-0.015em] text-balance text-ink transition-transform duration-300 ease-out group-hover:translate-x-1.5">
+                          <h3 className="font-display text-[clamp(1.5rem,2.7vw,2.15rem)] leading-[1.06] tracking-[-0.015em] text-balance text-accent-strong transition-transform duration-300 ease-out group-hover:translate-x-1.5">
                             {t.name}
                           </h3>
                           <ArrowRight

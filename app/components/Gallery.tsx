@@ -29,14 +29,14 @@ const PHOTO = {
     caption: "The surgery",
   },
   diagnostics: {
-    src: "/fr0ggy5-DwlC4fija6o-unsplash.jpg",
+    src: "/fr0ggy5-DwlC4fija6o-unsplash.webp",
     alt: "A full panoramic dental x-ray on a chairside monitor",
     aspect: "aspect-[3/2]",
     index: "02",
     caption: "Diagnostics",
   },
   instruments: {
-    src: "/ozkan-guner-8YUH8Jne5S0-unsplash.jpg",
+    src: "/ozkan-guner-8YUH8Jne5S0-unsplash.webp",
     alt: "Dental handpieces and instruments laid out chairside",
     aspect: "aspect-[3/2]",
     index: "03",
@@ -217,7 +217,7 @@ export function Gallery() {
   return (
     <section
       id="inside"
-      className="scroll-mt-24 py-24 sm:py-28 lg:flex lg:min-h-screen lg:items-center lg:py-[clamp(2.75rem,6vh,6rem)]"
+      className="scroll-mt-16 lg:scroll-mt-[72px] py-24 sm:py-28 lg:flex lg:min-h-screen lg:items-center lg:py-[clamp(2.75rem,6vh,6rem)]"
       style={vars}
     >
       <div

@@ -13,7 +13,7 @@ const HOURS = [
 
 export function Booking() {
   return (
-    <section id="book" className="scroll-mt-24 py-24 sm:py-32 lg:py-40">
+    <section id="book" className="scroll-mt-16 lg:scroll-mt-[72px] py-24 sm:py-32 lg:py-40">
       <div className="mx-auto grid max-w-[1320px] grid-cols-1 gap-14 px-5 sm:px-8 lg:grid-cols-2 lg:gap-20">
         {/* Invitation */}
         <Reveal>

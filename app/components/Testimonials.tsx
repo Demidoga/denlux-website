@@ -48,7 +48,7 @@ export function Testimonials() {
   return (
     <section
       aria-label="What patients say"
-      className="scroll-mt-24 bg-surface/50 py-24 sm:py-32 lg:py-40"
+      className="scroll-mt-16 lg:scroll-mt-[72px] bg-surface/50 py-24 sm:py-32 lg:py-40"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocusCapture={() => setPaused(true)}

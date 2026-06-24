@@ -23,6 +23,7 @@ const LINKS = [
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [nearTop, setNearTop] = useState(false);
   const [open, setOpen] = useState(false);
   const reduce = useReducedMotion();
   const { scrollY } = useScroll();
@@ -48,12 +49,28 @@ export function Nav() {
     };
   }, [open]);
 
+  // Reveal the bar when the pointer approaches the top edge, even if it was
+  // hidden by scrolling down. Ignore coarse pointers (touch), where there is
+  // no hover to track.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+    const onMove = (e: PointerEvent) => {
+      setNearTop((prev) => {
+        const next = e.clientY <= 80;
+        return prev === next ? prev : next;
+      });
+    };
+    window.addEventListener("pointermove", onMove);
+    return () => window.removeEventListener("pointermove", onMove);
+  }, []);
+
   // At the top of the page the bar floats over the dark reception hero, so it
   // needs light text. Once scrolled (or the mobile menu opens) it goes solid.
   const onHero = !scrolled && !open;
   const barSolid = scrolled || open;
 
-  const shouldHide = hidden && !open;
+  const shouldHide = hidden && !open && !nearTop;
 
   return (
     <motion.header
@@ -75,7 +92,7 @@ export function Nav() {
         <nav className="mx-auto flex h-16 max-w-[1320px] items-center justify-between px-5 sm:px-8 lg:h-[72px]">
           <a href="#top" aria-label="Denlux Dental, home" className="relative block">
             <Image
-              src="/logo-light.png"
+              src="/logo-light.webp"
               alt="Denlux Dental"
               width={1584}
               height={718}
@@ -83,7 +100,7 @@ export function Nav() {
               className={`h-7 w-auto lg:h-8 ${onHero ? "hidden" : "block dark:hidden"}`}
             />
             <Image
-              src="/logo-dark.png"
+              src="/logo-dark.webp"
               alt="Denlux Dental"
               width={1584}
               height={718}

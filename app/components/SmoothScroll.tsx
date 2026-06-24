@@ -35,7 +35,11 @@ export function SmoothScroll() {
       const el = document.querySelector(id);
       if (!el) return;
       e.preventDefault();
-      lenis.scrollTo(el as HTMLElement, { offset: -84 });
+      // Land the section flush under the sticky nav. Measure the bar instead of
+      // guessing, so it stays correct across breakpoints (64px / 72px tall).
+      const header = document.querySelector("header");
+      const navH = header ? header.getBoundingClientRect().height : 72;
+      lenis.scrollTo(el as HTMLElement, { offset: + (navH) });
     }
     document.addEventListener("click", onClick);
 

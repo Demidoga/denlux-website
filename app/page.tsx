@@ -15,7 +15,6 @@ export default function Page() {
       <Nav />
       <main>
         <Hero />
-        <Marquee />
         <About />
         <Services />
         <Gallery />

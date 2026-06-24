@@ -35,7 +35,7 @@ export function Footer() {
         <div className="grid grid-cols-2 gap-10 py-14 md:grid-cols-4">
           <div className="col-span-2 md:col-span-1">
             <Image
-              src="/logo-dark.png"
+              src="/logo-dark.webp"
               alt="Denlux Dental"
               width={1584}
               height={718}
