@@ -22,7 +22,7 @@ const DOCTORS: Doctor[] = [
     name: "Dr. Saad Ahmed",
     plate: "DR. SAAD AHMED",
     role: "Principal dentist, founder",
-    photo: "/dr_cp.png",
+    photo: "/dr_cp.webp",
     alt: "Dr. Saad Ahmed, principal dentist and founder of Denlux",
     objectPosition: "center 18%",
     lead: "Good dentistry begins with a conversation, not a drill.",

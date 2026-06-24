@@ -22,7 +22,7 @@ import { Reveal } from "./motion";
    single frame, never cropped. */
 const PHOTO = {
   surgery: {
-    src: "/Gemini_Generated_Image_vjup9qvjup9qvjup.png",
+    src: "/chair.webp",
     alt: "A Denlux treatment room: a blue dental chair under warm overhead light, with cabinetry and a chairside monitor",
     aspect: "aspect-[768/1365]",
     index: "01",

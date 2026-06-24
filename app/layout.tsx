@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     description:
       "A private dental practice led by Dr. Saad Ahmed. Unhurried, careful, and honest care for the whole family.",
     type: "website",
-    images: [{ url: "/reception.png", width: 2752, height: 1536, alt: "Inside Denlux Dental" }],
+    images: [{ url: "/reception.webp", width: 2752, height: 1536, alt: "Inside Denlux Dental" }],
   },
 };
 

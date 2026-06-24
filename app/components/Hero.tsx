@@ -25,7 +25,7 @@ export function Hero() {
           background on desktop. */}
       <div className="relative aspect-[2752/1536] w-full lg:absolute lg:inset-0 lg:aspect-auto lg:h-full">
         <Image
-          src="/reception.png"
+          src="/reception.webp"
           alt="The Denlux reception, warm lighting against a dark panelled feature wall"
           fill
           priority
