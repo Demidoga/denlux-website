@@ -1,0 +1,336 @@
+@import "tailwindcss";
+
+/* Drive Tailwind's dark: variant from our data-theme attribute (manual toggle, not OS-only). */
+@custom-variant dark ([data-theme="dark"] &);
+
+/*
+  Denlux Dental theme tokens.
+  Two committed modes share one accent (Denlux Cyan).
+    light  = warm-cream editorial
+    dark   = private-members clinic (the real interior at night)
+  Type: Fraunces (--font-caslon, via .font-display) for headings,
+        Manrope (--font-hanken) for body. Quirky optical serif / clean geometric sans.
+  Source palette: palette.md (cream #fff5ee, charcoal #36454f, muddy #372e26 / #4f4136, slate #bbcfdd, cyan #1bc3ea).
+*/
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-ink: var(--accent-ink);
+  --color-frame: var(--frame);
+  --color-rail: var(--rail);
+  --color-frame-deep: var(--frame-deep);
+  --color-frame-deep-ink: var(--frame-deep-ink);
+  --color-deep: var(--deep);
+  --color-deep-ink: var(--deep-ink);
+  --color-deep-soft: var(--deep-soft);
+  --color-deep-line: var(--deep-line);
+
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-caslon), "Hoefler Text", Georgia, "Times New Roman", serif;
+
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* LIGHT: warm-cream editorial (default) */
+:root,
+[data-theme="light"] {
+  --bg: #fcf5ec;
+  --surface: #f5ece0;
+  --surface-2: #ede1d2;
+  --ink: #1f2d34;
+  --ink-soft: #455760;
+  --muted: #5e676d;
+  --line: rgba(31, 45, 52, 0.12);
+
+  --accent: #1bc3ea;
+  --accent-strong: #0c7791; /* cyan that passes 4.5:1 as text on cream */
+  --accent-ink: #05303a; /* dark text on cyan fills */
+
+  /* cool backing panel behind framed images, so the page is not one flat colour */
+  --frame: #d9e4ec;
+
+  /* hero three-zone layout: thin light rail + dark image frame */
+  --rail: #ffffff;
+  --frame-deep: #4f4136; /* muddy brown, contrasts the cream primary */
+  --frame-deep-ink: #f4e8db;
+
+  /* the constant muddy-dark anchor: interlude + footer */
+  --deep: #241d17;
+  --deep-ink: #f4e8db;
+  --deep-soft: #c4b3a1;
+  --deep-line: rgba(244, 232, 219, 0.16);
+
+  /* frosted glass: the gallery backdrop slab + caption chips over photos */
+  --frost-field: rgba(243, 234, 222, 0.62);
+  --frost-chip: rgba(250, 244, 236, 0.66);
+
+  color-scheme: light;
+}
+
+/* DARK: private-members clinic */
+[data-theme="dark"] {
+  --bg: #151d21;
+  --surface: #1d272b;
+  --surface-2: #273438;
+  --ink: #f4ecdf;
+  --ink-soft: #bac3c7;
+  --muted: #8c969b;
+  --line: rgba(244, 236, 223, 0.14);
+
+  --accent: #1bc3ea;
+  --accent-strong: #54d4f1; /* lighter cyan as text on charcoal */
+  --accent-ink: #05303a;
+
+  --frame: #28373f; /* cool lifted panel behind framed images */
+  --rail: #1e2a2f;
+  --frame-deep: #463729;
+  --frame-deep-ink: #f4e8db;
+
+  --deep: #100a07;
+  --deep-ink: #f4e8db;
+  --deep-soft: #b6a695;
+  --deep-line: rgba(244, 232, 219, 0.16);
+
+  --frost-field: rgba(33, 44, 49, 0.5);
+  --frost-chip: rgba(18, 25, 29, 0.58);
+
+  color-scheme: dark;
+}
+
+* {
+  border-color: var(--line);
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* `clip` (not `hidden`) so the page still hides horizontal overflow without
+     turning <body> into a scroll container, which would break `position: sticky`
+     (the Services section pins its left rail this way). */
+  overflow-x: clip;
+  transition: background-color 0.5s var(--ease-out-quart),
+    color 0.5s var(--ease-out-quart);
+}
+
+::selection {
+  background-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Editorial type defaults. Libre Caslon Display is a high-contrast serif: it
+   wants close-to-neutral tracking (negative tracking thins the hairlines and
+   collides the serifs), so the base is gentle and large display sizes tighten
+   it locally. `optical-sizing: auto` lets the face thin its contrast at scale. */
+.font-display {
+  font-family: var(--font-caslon), "Hoefler Text", Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  font-optical-sizing: auto;
+  text-wrap: balance;
+}
+
+.prose-measure {
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+
+/* Fine grain to keep large flat fields from feeling flat / lifeless. Fixed + non-interactive per perf rules. */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Reveal fail-safe: if the entrance never runs (reduced motion, no JS, headless
+   crawler), force the element visible so content is never gated behind motion. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Smooth-scroll (Lenis) wiring */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* Arrow nav button: icon nudges right on hover */
+@keyframes arrow-nudge {
+  0%   { transform: translateX(0); }
+  40%  { transform: translateX(4px); }
+  70%  { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+.animate-arrow-nudge {
+  animation: arrow-nudge 0.38s var(--ease-out-expo) forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-arrow-nudge { animation: none; }
+}
+
+/* Hero scroll cue: the down-arrow bobs gently to read as a "continue" affordance. */
+@keyframes scroll-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(3px); }
+}
+.animate-scroll-bob {
+  animation: scroll-bob 1.9s var(--ease-out-quart) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-scroll-bob { animation: none; }
+}
+
+/* Marquee keyframes for the brand reassurance strip */
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee-x 38s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}
+
+/* About: slow right-to-left drift for the topographic contour field. Two identical
+   copies sit side by side in a 200%-wide track; translating the track by -50% lands
+   copy 2 exactly where copy 1 began, so the loop has no jump. Each line also returns
+   to its start height at the right edge, so the two copies meet with no vertical seam.
+   Under reduced motion the field holds still (the lines stay visible, never gated). */
+@keyframes contour-drift {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.animate-contour {
+  animation: contour-drift 104s linear infinite;
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-contour {
+    animation: none;
+  }
+}
+
+/* Gallery frosted glass. The backdrop slab (frost-field) sits behind the collage
+   and gives the section a rough, tactile pane; the caption chips (frost-chip) are
+   real backdrop-blur over photography. Both are roughened with a fine grain so the
+   glass reads as etched, not glossy. */
+/* Both consumers carry their own Tailwind position class (the slab is `absolute`,
+   the chip is `absolute`), which establishes the containing block for the grain
+   ::after; do not set `position` here (unlayered, it would beat those utilities). */
+.frost-field,
+.frost-chip {
+  isolation: isolate;
+  background-color: var(--frost-field);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.frost-chip {
+  background-color: var(--frost-chip);
+  -webkit-backdrop-filter: blur(11px) saturate(125%);
+  backdrop-filter: blur(11px) saturate(125%);
+}
+.frost-field::after,
+.frost-chip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23r)'/%3E%3C/svg%3E");
+  background-size: 116px 116px;
+}
+.frost-field::after {
+  opacity: 0.85;
+}
+.frost-chip::after {
+  opacity: 0.75;
+}
+.frost-chip > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Idle drift: the collage breathes even without scroll, so a single static frame
+   never reads as dead. Three offset phases keep the pieces from moving in lockstep.
+   Held still under reduced motion. */
+@keyframes drift-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+.drift-a {
+  animation: drift-soft 7.5s ease-in-out infinite;
+}
+.drift-b {
+  animation: drift-soft 9.4s ease-in-out -2.6s infinite;
+}
+.drift-c {
+  animation: drift-soft 8.3s ease-in-out -5.1s infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .drift-a,
+  .drift-b,
+  .drift-c {
+    animation: none;
+  }
+}
