@@ -334,3 +334,48 @@ html.lenis body {
     animation: none;
   }
 }
+
+/* Scroll stack (Gallery, rightmost slot). A self-contained scroll box: the cards
+   pin and deck onto one another as you scroll *inside* it. `data-lenis-prevent`
+   keeps the page's global Lenis from hijacking the wheel here, and
+   overscroll-behavior: contain stops scroll from chaining back to the page at the
+   ends. Scrollbar is hidden; the layout is the affordance. */
+.scroll-stack-scroller {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: visible;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.scroll-stack-scroller::-webkit-scrollbar {
+  display: none;
+}
+.scroll-stack-inner {
+  padding-top: 16%;
+  padding-bottom: 24rem;
+}
+.scroll-stack-card {
+  position: relative;
+  transform-origin: top center;
+  will-change: transform, filter;
+  backface-visibility: hidden;
+}
+.scroll-stack-end {
+  width: 100%;
+  height: 1px;
+}
+
+/* Reduced motion / no-JS: no pinning engine. The box becomes a plain, calm
+   scroll of the frames, every card fully visible and untransformed. */
+.scroll-stack-scroller--static .scroll-stack-inner {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.scroll-stack-scroller--static .scroll-stack-card {
+  margin-bottom: 1.25rem;
+  transform: none !important;
+  filter: none !important;
+}

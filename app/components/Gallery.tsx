@@ -5,17 +5,21 @@ import {
   motion,
   useMotionValue,
   useReducedMotion,
+  useScroll,
   useSpring,
   useTransform,
   type MotionValue,
 } from "motion/react";
 import {
+  useEffect,
   useRef,
   useState,
   type CSSProperties,
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { Reveal } from "./motion";
+import ScrollStack, { ScrollStackItem } from "./ScrollStack";
+import { ScrollDeck } from "./ScrollDeck";
 
 /* The three frames from the surgery floor. Each container's aspect ratio matches
    its file exactly, so object-cover shows the whole photograph: shrunk to fit the
@@ -34,13 +38,6 @@ const PHOTO = {
     aspect: "aspect-[3/2]",
     index: "02",
     caption: "Diagnostics",
-  },
-  instruments: {
-    src: "/ozkan-guner-8YUH8Jne5S0-unsplash.webp",
-    alt: "Dental handpieces and instruments laid out chairside",
-    aspect: "aspect-[3/2]",
-    index: "03",
-    caption: "The instruments",
   },
 } as const;
 
@@ -172,6 +169,99 @@ function Lede() {
   );
 }
 
+/* The four equipment frames that deck up inside the rightmost slot. Ordered from
+   the wide establishing shot down to the close detail, so the stack tightens onto
+   the hero handpiece. */
+const STACK = [
+  {
+    src: "/scroll_stack/stack-4.webp",
+    alt: "The overhead operatory light above the dental chair, lit",
+    caption: "The light",
+    index: "01",
+  },
+  {
+    src: "/scroll_stack/stack-3.webp",
+    alt: "A mirror, probe, and scaler laid out on a chairside drape",
+    caption: "Hand instruments",
+    index: "02",
+  },
+  {
+    src: "/scroll_stack/stack-2.webp",
+    alt: "A chairside instrument sheathed in a protective barrier on its stand",
+    caption: "Sterile barrier",
+    index: "03",
+  },
+  {
+    src: "/scroll_stack/stack-1.webp",
+    alt: "An endodontic handpiece resting in its charging dock on marble",
+    caption: "The handpiece",
+    index: "04",
+  },
+] as const;
+
+/* A single framed card in the deck: hairline border, soft lift, the photograph,
+   and a plate caption legible over a foot gradient. Square-cornered like the rest
+   of the collage. */
+function StackCard({
+  src,
+  alt,
+  caption,
+  index,
+  priority = false,
+}: {
+  src: string;
+  alt: string;
+  caption: string;
+  index: string;
+  priority?: boolean;
+}) {
+  return (
+    <div className="relative aspect-[16/9] overflow-hidden rounded-[8px] border border-line bg-surface shadow-[0_26px_55px_-28px_rgba(20,16,12,0.7)]">
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(max-width: 1024px) 86vw, 30vw"
+        priority={priority}
+        className="object-cover"
+      />
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/55 to-transparent"
+      />
+      <span className="absolute inset-x-0 bottom-0 flex items-baseline justify-between gap-3 px-4 pb-3 text-white">
+        <span className="text-[0.8rem] tracking-tight drop-shadow-[0_1px_2px_rgba(0,0,0,0.5)]">
+          {caption}
+        </span>
+        <span className="font-display text-[0.8rem] text-white/80">{index}</span>
+      </span>
+    </div>
+  );
+}
+
+/* Mobile deck: a self-contained, touch-scroll stack (the page is never pinned on
+   mobile, where the collage is taller than a screen). Reduced motion falls back to
+   a calm static column, content always visible. */
+function EquipmentStack({ className = "" }: { className?: string }) {
+  return (
+    <ScrollStack
+      className={className}
+      itemDistance={44}
+      itemStackDistance={14}
+      baseScale={0.86}
+      itemScale={0.04}
+      stackPosition="16%"
+      scaleEndPosition="6%"
+    >
+      {STACK.map((s, i) => (
+        <ScrollStackItem key={s.src}>
+          <StackCard {...s} priority={i === 0} />
+        </ScrollStackItem>
+      ))}
+    </ScrollStack>
+  );
+}
+
 const COPY = {
   recede: {
     title: "A room that recedes",
@@ -186,6 +276,19 @@ const COPY = {
 export function Gallery() {
   const reduce = useReducedMotion() ?? false;
   const stageRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // Pinning + scroll-jacking is opt-in to motion: under reduced motion (or before
+  // hydration) the section keeps its natural height and the deck stays static, so
+  // content is never gated behind a scroll that may not happen.
+  const [pinned, setPinned] = useState(false);
+  useEffect(() => setPinned(!reduce), [reduce]);
+
+  // Progress of the page through the tall (pinned) section drives the desktop deck.
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
 
   const rawX = useMotionValue(0);
   const rawY = useMotionValue(0);
@@ -217,17 +320,25 @@ export function Gallery() {
   return (
     <section
       id="inside"
-      className="scroll-mt-16 lg:scroll-mt-[72px] py-24 sm:py-28 lg:flex lg:min-h-screen lg:items-center lg:py-[clamp(2.75rem,6vh,6rem)]"
+      ref={sectionRef}
+      className={`scroll-mt-16 lg:scroll-mt-[72px] relative ${
+        pinned ? "lg:h-[280vh]" : ""
+      }`}
       style={vars}
     >
+      {/* ============================ DESKTOP: PINNED DECK ============================
+          The section is tall; this stage sticks for its length so the page holds
+          while scroll progress scrubs the deck, releasing once the last card lands. */}
       <div
         ref={stageRef}
         onPointerMove={onMove}
         onPointerLeave={reset}
-        className="mx-auto w-full max-w-[1320px] px-5 sm:px-8"
+        className={`hidden lg:flex lg:min-h-screen lg:items-center lg:py-[clamp(2.75rem,6vh,6rem)] ${
+          pinned ? "lg:sticky lg:top-0" : ""
+        }`}
       >
-        {/* ============================ DESKTOP: 3 SECTIONS ============================ */}
-        <div className="relative rounded-xl hidden lg:block">
+        <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8">
+        <div className="relative rounded-xl">
           <div
             aria-hidden
             className="frost-field rounded-lg absolute -left-5 -right-5 -top-6 -bottom-6 border border-line shadow-[0_40px_90px_-55px_rgba(20,16,12,0.6),inset_0_1px_0_rgba(255,255,255,0.22)]"
@@ -288,28 +399,22 @@ export function Gallery() {
                 className="max-w-[30ch]"
               />
               <span aria-hidden className="my-6 block h-px w-full bg-line" />
-              <div className="relative mt-auto w-[calc(var(--stage-h)*0.62)] self-end">
-                <div
-                  aria-hidden
-                  className="absolute -left-3 -top-3 bottom-7 right-8 bg-frame-deep rounded-lg"
-                />
-                <Frame
-                  photo="instruments"
-                  sizes="24vw"
-                  depth={13}
-                  drift="drift-c"
-                  wipe="down"
-                  revealDelay={0.3}
-                  className="relative"
-                  {...fp}
-                />
+              {/* 16:9 frame matches the photos, so the whole image fits with no crop. */}
+              <div className="relative mt-auto aspect-video w-full">
+                <ScrollDeck items={STACK} progress={scrollYProgress} />
               </div>
             </Reveal>
           </div>
         </div>
+        </div>
+      </div>
 
-        {/* ============================ MOBILE / TABLET ============================ */}
-        <div className="relative lg:hidden">
+      {/* ============================ MOBILE / TABLET ============================
+          Normal flow, its own touch-scroll deck. The mobile collage is taller than
+          a screen, so it is never pinned. */}
+      <div className="lg:hidden py-24 sm:py-28">
+        <div className="mx-auto w-full max-w-[1320px] px-5 sm:px-8">
+        <div className="relative">
           <div
             aria-hidden
             className="frost-field absolute -left-4 -right-4 -top-5 -bottom-5 border border-line"
@@ -359,24 +464,12 @@ export function Gallery() {
                 />
               </Reveal>
               <span aria-hidden className="my-5 block h-px w-full bg-line" />
-              <Reveal delay={0.05} className="relative ml-auto w-[86%]">
-                <div
-                  aria-hidden
-                  className="absolute -left-4 -top-4 bottom-7 right-8 bg-frame-deep"
-                />
-                <Frame
-                  photo="instruments"
-                  sizes="86vw"
-                  depth={6}
-                  drift="drift-c"
-                  wipe="down"
-                  revealDelay={0.1}
-                  className="relative"
-                  {...fp}
-                />
+              <Reveal delay={0.05} className="relative h-[88vw] max-h-[440px] w-full">
+                <EquipmentStack />
               </Reveal>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>

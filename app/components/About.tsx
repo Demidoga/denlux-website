@@ -11,6 +11,7 @@ type Doctor = {
   photo: string;
   alt: string;
   objectPosition: string;
+  contour: string;
   lead: string;
   body: string;
   specs: { label: string; value: string }[];
@@ -25,6 +26,7 @@ const DOCTORS: Doctor[] = [
     photo: "/dr_cp.webp",
     alt: "Dr. Saad Ahmed, principal dentist and founder of Denlux",
     objectPosition: "center 18%",
+    contour: "/about/contour_1.png",
     lead: "Good dentistry begins with a conversation, not a drill.",
     body: "Saad built Denlux around a simple observation: most people put off the dentist because they feel rushed or kept in the dark. Every visit he leads starts with listening, so you understand each option before anything begins.",
     specs: [
@@ -40,6 +42,7 @@ const DOCTORS: Doctor[] = [
     photo: "/dr.jpeg",
     alt: "Dr. Hassan, associate dentist at Denlux",
     objectPosition: "center 12%",
+    contour: "/about/contour_2.png",
     lead: "The quiet appointments, where small things get caught early.",
     body: "Hassan looks after the preventive work most clinics rush. Patients tend to describe him the same way each time, gentle, unhurried, and clear about what comes next, so a routine check never feels like a production line.",
     specs: [
@@ -56,29 +59,41 @@ function PortraitPlate({ doctor }: { doctor: Doctor }) {
   return (
     <figure className="relative">
       {/* Spec frame. On large screens the left half is reserved (padding) for the
-          floating portrait; the plate text sits in the right half. */}
-      <div className="relative flex min-h-[24rem] flex-col justify-center rounded-2xl border border-line bg-surface px-6 pb-7 pt-[19rem] sm:px-8 lg:min-h-[31rem] lg:py-9 lg:pl-[53%] lg:pr-10 lg:pt-9">
+          floating portrait; the plate text sits in the right half. The contour art
+          backs the frame; a deep scrim keeps the spec text legible over it. */}
+      <div className="relative flex min-h-[24rem] flex-col justify-center overflow-hidden rounded-2xl border border-deep-line bg-deep px-6 pb-7 pt-[19rem] sm:px-8 lg:min-h-[31rem] lg:py-9 lg:pl-[53%] lg:pr-10 lg:pt-9">
+        {/* contour background art */}
+        <Image
+          src={doctor.contour}
+          alt=""
+          aria-hidden
+          fill
+          sizes="(max-width: 1024px) 90vw, 60vw"
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-linear-to-r from-deep/40 via-deep/55 to-deep/80" />
+
         {/* corner index */}
-        <span className="font-display absolute right-5 top-5 text-[0.78rem] tracking-tight text-muted lg:right-7 lg:top-7">
+        <span className="font-display absolute right-5 top-5 z-10 text-[0.78rem] tracking-tight text-deep-soft lg:right-7 lg:top-7">
           {doctor.index}
         </span>
 
-        <div className="w-full">
+        <div className="relative z-10 w-full">
           <p className="font-display text-[clamp(1.2rem,1.5vw,1.5rem)] leading-none tracking-[-0.01em] text-accent-strong">
             {doctor.plate}
           </p>
-          <p className="mt-2 text-sm tracking-tight text-muted">{doctor.role}</p>
+          <p className="mt-2 text-sm tracking-tight text-deep-soft">{doctor.role}</p>
 
-          <dl className="mt-6 border-t border-line">
+          <dl className="mt-6 border-t border-deep-line">
             {doctor.specs.map((spec) => (
               <div
                 key={spec.label}
-                className="flex items-baseline justify-between gap-4 border-b border-line py-3"
+                className="flex items-baseline justify-between gap-4 border-b border-deep-line py-3"
               >
-                <dt className="text-[0.7rem] uppercase tracking-[0.16em] text-muted">
+                <dt className="text-[0.7rem] uppercase tracking-[0.16em] text-deep-soft">
                   {spec.label}
                 </dt>
-                <dd className="text-right text-[0.96rem] tracking-tight text-ink">
+                <dd className="text-right text-[0.96rem] tracking-tight text-deep-ink">
                   {spec.value}
                 </dd>
               </div>
@@ -114,13 +129,8 @@ function DoctorRow({ doctor, reverse }: { doctor: Doctor; reverse: boolean }) {
           reverse ? "lg:order-2 lg:col-start-8" : "lg:order-1"
         }`}
       >
-        <Reveal>
-          <p className="text-[0.96rem] font-medium tracking-tight text-accent-strong">
-            {doctor.name}
-          </p>
-        </Reveal>
         <Reveal delay={0.06}>
-          <h3 className="font-display mt-4 text-[clamp(1.7rem,2.7vw,2.5rem)] leading-[1.12] tracking-[-0.02em] text-ink">
+          <h3 className="font-display mt-4 text-[clamp(1.7rem,2.7vw,2.5rem)] leading-[1.12] tracking-[-0.02em] text-accent-strong">
             {doctor.lead}
           </h3>
         </Reveal>
