@@ -370,7 +370,7 @@ export function Gallery() {
                 <Lede />
               </div>
 
-              <div className="relative mt-auto w-[calc(var(--stage-h)*0.86)] rounded-lg bg-frame-deep p-5">
+              <div className="relative mt-auto w-[calc(var(--stage-h)*0.86)] rounded-lg bg-ink p-5">
                 <Frame
                   photo="diagnostics"
                   sizes="24vw"

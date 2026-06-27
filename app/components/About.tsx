@@ -1,8 +1,6 @@
 import Image from "next/image";
 import { Reveal } from "./motion";
 
-/* The two clinicians. Hassan currently reuses the practice portrait as a
-   placeholder; swap `photo` for his own headshot when supplied. */
 type Doctor = {
   index: string;
   name: string;
@@ -14,7 +12,7 @@ type Doctor = {
   contour: string;
   lead: string;
   body: string;
-  specs: { label: string; value: string }[];
+  specs: string[];
 };
 
 const DOCTORS: Doctor[] = [
@@ -22,32 +20,33 @@ const DOCTORS: Doctor[] = [
     index: "01",
     name: "Dr. Saad Ahmed",
     plate: "DR. SAAD AHMED",
-    role: "Principal dentist, founder",
+    role: "Demo, (AFID, CMH)",
     photo: "/dr_cp.webp",
-    alt: "Dr. Saad Ahmed, principal dentist and founder of Denlux",
+    alt: "Dr. Saad Ahmed, dentist at Denlux",
     objectPosition: "center 18%",
     contour: "/about/contour_1.png",
-    lead: "Good dentistry begins with a conversation, not a drill.",
-    body: "Saad built Denlux around a simple observation: most people put off the dentist because they feel rushed or kept in the dark. Every visit he leads starts with listening, so you understand each option before anything begins.",
+    lead: "Precision that comes from years of specialized training, not guesswork.",
+    body: "Saad trained at the Armed Forces Institute of Dentistry, one of Pakistan's most rigorous clinical environments. His post-graduate work in endodontics and orthodontics means the full arc of your treatment, from root to alignment, stays in experienced hands.",
     specs: [
-      { label: "Focus", value: "Cosmetic & restorative" },
-      { label: "Practising since", value: "2012" },
+      "BDS, de' Montmorency College of Dentistry",
+      "FCICSD",
+      "C-Endo, C-Ortho",
     ],
   },
   {
     index: "02",
     name: "Dr. Hassan",
     plate: "DR. HASSAN",
-    role: "Associate dentist",
+    role: "Demo, (AFID, CMH)",
     photo: "/dr.jpeg",
-    alt: "Dr. Hassan, associate dentist at Denlux",
+    alt: "Dr. Hassan, dentist at Denlux",
     objectPosition: "center 12%",
     contour: "/about/contour_2.png",
-    lead: "The quiet appointments, where small things get caught early.",
-    body: "Hassan looks after the preventive work most clinics rush. Patients tend to describe him the same way each time, gentle, unhurried, and clear about what comes next, so a routine check never feels like a production line.",
+    lead: "A clinical eye sharpened across some of Pakistan's most demanding teaching hospitals.",
+    body: "Hassan trained at Bahria University Medical and Dental College and PNS Shifa in Karachi, institutions known for high patient volume and exacting standards. That background gives him a confident, efficient touch that puts anxious patients at ease.",
     specs: [
-      { label: "Focus", value: "Preventive & hygiene" },
-      { label: "Practising since", value: "2016" },
+      "BDS, RDS",
+      "BUMDC, PNS Shifa, Karachi",
     ],
   },
 ];
@@ -71,7 +70,7 @@ function PortraitPlate({ doctor }: { doctor: Doctor }) {
           sizes="(max-width: 1024px) 90vw, 60vw"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-linear-to-r from-deep/40 via-deep/55 to-deep/80" />
+        <div className="absolute inset-0 bg-black/40" />
 
         {/* corner index */}
         <span className="font-display absolute right-5 top-5 z-10 text-[0.78rem] tracking-tight text-deep-soft lg:right-7 lg:top-7">
@@ -79,26 +78,21 @@ function PortraitPlate({ doctor }: { doctor: Doctor }) {
         </span>
 
         <div className="relative z-10 w-full">
-          <p className="font-display text-[clamp(1.2rem,1.5vw,1.5rem)] leading-none tracking-[-0.01em] text-accent-strong">
+          <p className="font-display text-[clamp(1.2rem,1.5vw,1.5rem)] leading-none tracking-[-0.01em] text-accent">
             {doctor.plate}
           </p>
           <p className="mt-2 text-sm tracking-tight text-deep-soft">{doctor.role}</p>
 
-          <dl className="mt-6 border-t border-deep-line">
+          <ul className="mt-6 border-t border-deep-line">
             {doctor.specs.map((spec) => (
-              <div
-                key={spec.label}
-                className="flex items-baseline justify-between gap-4 border-b border-deep-line py-3"
+              <li
+                key={spec}
+                className="border-b border-deep-line py-3 text-[0.96rem] tracking-tight text-deep-ink"
               >
-                <dt className="text-[0.7rem] uppercase tracking-[0.16em] text-deep-soft">
-                  {spec.label}
-                </dt>
-                <dd className="text-right text-[0.96rem] tracking-tight text-deep-ink">
-                  {spec.value}
-                </dd>
-              </div>
+                {spec}
+              </li>
             ))}
-          </dl>
+          </ul>
         </div>
       </div>
 

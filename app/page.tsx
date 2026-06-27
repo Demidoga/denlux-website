@@ -18,7 +18,7 @@ export default function Page() {
         <About />
         <Services />
         <Gallery />
-        <Interlude />
+        {/* <Interlude /> */}
         <Testimonials />
         <Booking />
       </main>

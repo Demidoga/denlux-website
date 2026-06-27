@@ -21,7 +21,7 @@ const SOCIAL = [
 
 export function Footer() {
   return (
-    <footer className="bg-deep text-deep-ink">
+    <footer className="bg-ink text-deep-ink">
       <div className="mx-auto max-w-[1320px] px-5 py-20 sm:px-8 lg:py-24">
         {/* Final invitation */}
         <div className="flex flex-col gap-8 border-b border-deep-line pb-14 md:flex-row md:items-end md:justify-between">

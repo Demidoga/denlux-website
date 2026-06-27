@@ -125,7 +125,7 @@ export function Nav() {
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
-            <ThemeToggle onDark={onHero} />
+            {/* <ThemeToggle onDark={onHero} /> */}
             <div className="hidden sm:block">
               <BookButton size="sm" magnetic={false} withArrow={false} />
             </div>
